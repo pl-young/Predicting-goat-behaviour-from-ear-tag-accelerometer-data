@@ -9,6 +9,8 @@ However, manual measurements of behaviour can be time-consuming, expensive, and 
 ## Pre-requisites
 In terminal:
 ```
+git clone https://github.com/pl-young/Predicting-positional-goat-behaviour-from-ear-tag-accelerometer-data.git
+cd Predicting-positional-goat-behaviour-from-ear-tag-accelerometer-data
 uv add numpy pandas matplotlib scikit-learn
 ```
 
