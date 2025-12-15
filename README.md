@@ -190,7 +190,7 @@ y_pred = rf.predict(X_test)
 ## Results
 Transformation and visualisation of the variables to be included in the model showed that while the distrubution of the coordinates could be log-transformed to be normal, this was not the case for speed. As such, a random forest model (which does not require a normal distribution) was chosen.
 
-After tweaking the hyper-parameters 'number of estimators' and 'maximum tree depth', the accuracy of the final model was 0.4971, or 49.71% (4sf). This is visualied in the confusion matrix.
+After tweaking the hyper-parameters 'number of estimators' to be 100 and 'maximum tree depth' to be 30, the accuracy of the final model was 0.4971, or 49.71% (4sf). This is visualised in the confusion matrix.
 
 
 Assess the accuracy and composition of these predictions in a confusion matrix
