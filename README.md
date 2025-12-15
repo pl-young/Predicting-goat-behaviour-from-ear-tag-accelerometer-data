@@ -1,8 +1,10 @@
 # Predicting goat behaviour from ear-tag accelerometer data
-This repository includes the data and key information necessary to train and test a model to identify goat behaviour from xyz coordinates in ear-tag accelerometers. This README also serves as the project report, discussing the motivation for the project, necessary pre-requisites, methods, results, and conclusions.
+This repository includes the data and key information necessary to train and test a model to identify goat behaviour from xyz coordinates in ear-tag accelerometers. This README also serves as the project report, discussing the motivation for the project, necessary pre-requisites to run the code, methods, results, and conclusions.
 
-## Motivation
-Text
+## Introduction and motivation
+Animal welfare is of social, economic, environmental, and ethical importance (WOAH, 2024) and efforts to measure and improve welfare are therefore of value. In the past, measures of animal welfare have often focused on physical health. However, it is now accepted that animal welfare goes beyond physical health to encompass psychological health and consideration of the animal's emotional state (Mellor, 2020). Behaviour is suggested to be a useful tool to measure these aspects (Dawkins, 2003), as well as offering early insights into physical health concerns such as fatigue (Darbandi et al., 2023) and changes in gait (Bucci et al., 2025).
+
+However, manual measurements of behaviour can be time-consuming, expensive, and unreliable (Rushen et al., 2012). Automated measurements, such as those gathered from accelerometers worn by each individual animal, represent a way to collect large amounts of behavioural data at a lower cost and with less time input. These data can then be used to train a model to predict the animal's behaviour from the accelerometer data. This model can then be employed in real-time to cheaply and easily monitor each animal's behaviour, potentially allowing the farmer to detect early signs of poor health and wellbeing and improve them before the animal's welfare is substantially compromised.
 
 ## Pre-requisites
 In terminal:
@@ -21,6 +23,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 ```
 
 ## Methods
+In this work I look at data from Mauny et al. (2025). In this study, accelerometers were attached to the ear-tags of eight indoor dairy Alpine goats to record their acceleration on the x-y-z-axis for a 24-hour period. Videos were also taken and the behaviours performed by each goat were labelled for a total of 11 hours per goat. These labels were made by a single trained observer and represented the 'ground truth'. Each file represents data from one individual goat.
+
+The data were first cleaned and reviewed, and the variables of interest – x-y-z coordinates and the animal's behaviour – were extracted.
+
+A measure of speed was then calculated as: sqrt[(x-coordinate**2) + (y-coordinate**2) + (z-coordinate**2)]. The distribution of each variable
+
 Load in data
 ```
 # Get file names of all 8 files
@@ -205,3 +213,16 @@ plt.show()
 <img width="830" height="562" alt="Screenshot 2025-12-15 at 10 57 32" src="https://github.com/user-attachments/assets/bb1fee8f-c12c-4c08-bfc4-46025fe13d0b" />
 
 ## Conclusions
+
+## References
+Bucci, M. P., Dewberry, L. S., Staiger, E. A., Allen, K., & Brooks, S. A. (2025). AI-assisted Digital Video Analysis Reveals Changes in Gait Among Three-Day Event Horses During Competition. Journal of Equine Veterinary Science, 105344. https://doi.org/10.1016/j.jevs.2025.105344
+
+Dawkins, M. S. (2003). Behaviour as a tool in the assessment of animal welfare. Zoology, 106(4), 383–387. https://doi.org/10.1078/0944-2006-00122
+
+Darbandi, H., Munsters, C. C. B. M., Parmentier, J., & Havinga, P. (2023). Detecting fatigue of sport horses with biomechanical gait features using inertial sensors. PLOS ONE, 18(4), e0284554–e0284554. https://doi.org/10.1371/journal.pone.0284554
+
+Mellor, D. J., Beausoleil, N. J., Littlewood, K. E., McLean, A. N., McGreevy, P. D., Jones, B., & Wilkins, C. (2020). The 2020 five domains model: Including human–animal interactions in assessments of animal welfare. Animals, 10(10), 1870. National Library of Medicine. https://doi.org/10.3390/ani10101870
+
+Rushen, J., Chapinal, N., & de Passillé, A. (2012). Automated monitoring of behavioural-based animal welfare indicators. Animal Welfare, 21(3), 339–350. https://doi.org/10.7120/09627286.21.3.339
+
+World Organisation for Animal Health. (2024). WOAH Vision Paper - Animal welfare: a vital asset for a more sustainable world. https://doi.org/10.20506/woah.3440
