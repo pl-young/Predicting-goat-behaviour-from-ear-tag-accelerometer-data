@@ -1,4 +1,4 @@
-# Predicting goat behaviour from ear-tag accelerometer data
+# Predicting positional goat behaviour from ear-tag accelerometer data
 This repository includes the data and key information necessary to train and test a model to identify goat behaviour from xyz coordinates in ear-tag accelerometers. This README also serves as the project report, discussing the motivation for the project, necessary pre-requisites to run the code, methods, results, and conclusions.
 
 ## Introduction and motivation
@@ -25,9 +25,14 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 ## Methods
 In this work I look at data from Mauny et al. (2025). In this study, accelerometers were attached to the ear-tags of eight indoor dairy Alpine goats to record their acceleration on the x-y-z-axis for a 24-hour period. Videos were also taken and the behaviours performed by each goat were labelled for a total of 11 hours per goat. These labels were made by a single trained observer and represented the 'ground truth'. Each file represents data from one individual goat.
 
-The data were first cleaned and reviewed, and the variables of interest – x-y-z coordinates and the animal's behaviour – were extracted.
+The data were cleaned to remove NAs, entries where the behaviour was not visible, and behaviours with very few entries, and the variables of interest – x-y-z coordinates, the animal's behaviour, and time stamps – were extracted.
 
-A measure of speed was then calculated as: sqrt[(x-coordinate**2) + (y-coordinate**2) + (z-coordinate**2)]. The distribution of each variable
+The x-y-z coordinates at each recording was used to calculate the animal’s overall movement as magnitude in the following way: sqrt[(change in x-coordinate since last recording^^2) + (change in y-coordinate since last recording^^2) + (change in z-coordinate since last recording^^2)]. Speed was then calculated as: magnitude / time since last recording.
+
+The distribution of each variable to be included in the model – change in x-y-z coordinates since last measurement, and speed – was visually assessed in order to select an appropriate model. The model was trained on 75% of the data, leaving 25% for testing.
+
+After generating an initial model, several combinations of the hyper-parameters were tweaked and the value which gave the best model accuracy, whilst maintaining performance across the different behaviours, was selected.
+
 
 Load in data
 ```
@@ -143,8 +148,11 @@ df.head()
 Visually inspect the distribution of variables using plt. hist, for example:
 ```
 plt.hist(df["dACCx"], color='skyblue', edgecolor='black')
+plt.xlabel("dACCx")
+plt.ylabel("Frequency")
+plt.show()
 ```
-Showed that while the distrubution of the coordinates could be log-transformed to be normal, this was not the case for speed. As such, a random forest model (which does not require a normal distribution) was chosen.
+<img width="619" height="434" alt="Screenshot 2025-12-15 at 16 17 35" src="https://github.com/user-attachments/assets/aebb8472-ef33-4059-bfbd-e73d30847054" />
 
 Set up random forest model
 ```
@@ -178,10 +186,13 @@ y_pred = rf.predict(X_test)
 
 ```
 
-Several combinations of the hyper-parameters 'number of estimators' and 'maximum tree depth' were tweaked and the value which gave the best model accuracy, whilst maintaining performance across the different behaviours, was selected.
-
 
 ## Results
+Transformation and visualisation of the variables to be included in the model showed that while the distrubution of the coordinates could be log-transformed to be normal, this was not the case for speed. As such, a random forest model (which does not require a normal distribution) was chosen.
+
+After tweaking the hyper-parameters 'number of estimators' and 'maximum tree depth', the accuracy of the final model was 0.4971, or 49.71% (4sf). This is visualied in the confusion matrix.
+
+
 Assess the accuracy and composition of these predictions in a confusion matrix
 ```
 # Find accuracy
@@ -194,10 +205,10 @@ disp.plot(cmap='Blues')
 plt.title('matrix')
 plt.show()
 ```
-Accuracy was found to be 0.4971, or 49.71% (4sf)
 
 <img width="584" height="446" alt="Screenshot 2025-12-15 at 10 57 21" src="https://github.com/user-attachments/assets/d20c54fa-8297-487b-b0a9-64f8f7b35305" />
 
+Speed was the most important feature used in the model's predictions, but the x-y-z coordinates were also used.
 
 Find feature importances
 ```
@@ -213,13 +224,20 @@ plt.show()
 <img width="830" height="562" alt="Screenshot 2025-12-15 at 10 57 32" src="https://github.com/user-attachments/assets/bb1fee8f-c12c-4c08-bfc4-46025fe13d0b" />
 
 ## Conclusions
+At 49.71%, the accuracy of the final model was poor. This indicates that the was model was not reliably able to predict the behaviour of an individual goat using accelerometer data.
+
+This analysis does face some limitations. Data were only gathered for eight individual goats over one 24-hour period, and video data was only labelled for a total fo 11 hours per goat. This small sample size could have limited the ability of the model to accurately predict behaviour. A larger sample may have allowed the model to make more accurate predictions, and increased the generalisability of these predictions to the wider population. Despite the observer being trained, it is also possible that they made some errors during the manual labelling of the videos. However, this is unlikely to have caused the substantial degree of inaccuracy seen in this model. Finally, computational limitations prevented thorough optimisation of hyper-parameters, and it is possible that further tweaking could have increased model accuracy to some extent.
+
+More fundamentally, however, these results indicate that a random forest model trained on x-y-z coordinate and time stamp data from accelerometers in the method described above is not a reliable predictor of goat behaviour. Further work on these data may wish to use another method to calculate movement, or may be able to more effectively optimise the model, in order to make a more thorough assessment of whether accelerometer data can be effectively used to predict goat behaviour.
 
 ## References
 Bucci, M. P., Dewberry, L. S., Staiger, E. A., Allen, K., & Brooks, S. A. (2025). AI-assisted Digital Video Analysis Reveals Changes in Gait Among Three-Day Event Horses During Competition. Journal of Equine Veterinary Science, 105344. https://doi.org/10.1016/j.jevs.2025.105344
 
+Darbandi, H., Munsters, C. C. B. M., Parmentier, J., & Havinga, P. (2023). Detecting fatigue of sport horses with biomechanical gait features using inertial sensors. PLOS ONE, 18(4), e0284554–e0284554. https://doi.org/10.1371/journal.pone.0284554
+
 Dawkins, M. S. (2003). Behaviour as a tool in the assessment of animal welfare. Zoology, 106(4), 383–387. https://doi.org/10.1078/0944-2006-00122
 
-Darbandi, H., Munsters, C. C. B. M., Parmentier, J., & Havinga, P. (2023). Detecting fatigue of sport horses with biomechanical gait features using inertial sensors. PLOS ONE, 18(4), e0284554–e0284554. https://doi.org/10.1371/journal.pone.0284554
+Mauny, S., Kwon, J., Friggens, N. C., Duvaux-Ponter, C., & Taghipoor, M. (2025). Data paper: A goat behaviour dataset combining labelled behaviours and accelerometer data for training Machine Learning detection models. Animal - Open Space, 4, 100095. https://doi.org/10.1016/j.anopes.2025.100095
 
 Mellor, D. J., Beausoleil, N. J., Littlewood, K. E., McLean, A. N., McGreevy, P. D., Jones, B., & Wilkins, C. (2020). The 2020 five domains model: Including human–animal interactions in assessments of animal welfare. Animals, 10(10), 1870. National Library of Medicine. https://doi.org/10.3390/ani10101870
 
