@@ -208,7 +208,8 @@ plt.show()
 
 <img width="584" height="446" alt="Screenshot 2025-12-15 at 10 57 21" src="https://github.com/user-attachments/assets/d20c54fa-8297-487b-b0a9-64f8f7b35305" />
 
-Speed was the most important feature used in the model's predictions, but the x-y-z coordinates were also used.
+
+The plot of feature importances showed that while speed was the most important feature used in the model's predictions, the x-y-z coordinates were also used.
 
 Find feature importances
 ```
@@ -226,9 +227,9 @@ plt.show()
 ## Conclusions
 At 49.71%, the accuracy of the final model was poor. This indicates that the was model was not reliably able to predict the behaviour of an individual goat using accelerometer data.
 
-This analysis does face some limitations. Data were only gathered for eight individual goats over one 24-hour period, and video data was only labelled for a total fo 11 hours per goat. This small sample size could have limited the ability of the model to accurately predict behaviour. A larger sample may have allowed the model to make more accurate predictions, and increased the generalisability of these predictions to the wider population. Despite the observer being trained, it is also possible that they made some errors during the manual labelling of the videos. However, this is unlikely to have caused the substantial degree of inaccuracy seen in this model. Finally, computational limitations prevented thorough optimisation of hyper-parameters, and it is possible that further tweaking could have increased model accuracy to some extent.
+This analysis does face some limitations. Data were only gathered for eight individual goats over one 24-hour period, and video data was only labelled for a total of 11 hours per goat. This small sample size could have limited the ability of the model to accurately predict behaviour. A larger sample may have allowed the model to make more accurate predictions and increased the generalisability of these predictions to the wider population. Despite the observer being trained, it is also possible that they made some errors during the manual labelling of the videos. However, this is unlikely to have caused the substantial degree of inaccuracy seen in this model. Finally, computational limitations prevented thorough optimisation of hyper-parameters, and it is possible that further tweaking of these could have increased model accuracy to some extent.
 
-More fundamentally, however, these results indicate that a random forest model trained on x-y-z coordinate and time stamp data from accelerometers in the method described above is not a reliable predictor of goat behaviour. Further work on these data may wish to use another method to calculate movement, or may be able to more effectively optimise the model, in order to make a more thorough assessment of whether accelerometer data can be effectively used to predict goat behaviour.
+More fundamentally, however, these results indicate that a random forest model trained on x-y-z coordinate and time stamp data from accelerometers in the method described above is not able to accurately predict of goat behaviour. Further work on these data may wish to use another method to calculate movement, or may be able to more effectively optimise the model, in order to make a more thorough assessment of whether accelerometer data can be effectively used to predict goat behaviour.
 
 ## References
 Bucci, M. P., Dewberry, L. S., Staiger, E. A., Allen, K., & Brooks, S. A. (2025). AI-assisted Digital Video Analysis Reveals Changes in Gait Among Three-Day Event Horses During Competition. Journal of Equine Veterinary Science, 105344. https://doi.org/10.1016/j.jevs.2025.105344
