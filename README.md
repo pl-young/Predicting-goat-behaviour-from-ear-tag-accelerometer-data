@@ -31,7 +31,7 @@ The x-y-z coordinates at each recording was used to calculate the animal’s ove
 
 The distribution of each variable to be included in the model – change in x-y-z coordinates since last measurement, and speed – was visually assessed in order to select an appropriate model. The model was trained on 75% of the data, leaving 25% for testing.
 
-After generating an initial model, several combinations of the hyper-parameters were tweaked and the value which gave the best model accuracy, whilst maintaining performance across the different behaviours, was selected.
+After generating an initial model, several of the hyper-parameters were tweaked and the hyper-parameter values which gave the best model accuracy, whilst maintaining performance across the different behaviours, were selected.
 
 
 Load in data
